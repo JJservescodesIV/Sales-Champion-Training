@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SCANA Home Warranty - Sales Champion Training</title>
@@ -372,6 +374,56 @@
             margin-bottom: 10px;
         }
 
+        .customer-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .customer-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .customer-card:hover {
+            border-color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .customer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .customer-avatar-small {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #e17055, #d63031);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+
+        .customer-info h4 {
+            margin: 0;
+            color: #ffd700;
+        }
+
+        .customer-info p {
+            margin: 0;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
         @media (max-width: 1024px) {
             .battle-layout {
                 grid-template-columns: 1fr;
@@ -394,6 +446,10 @@
             .actions {
                 grid-template-columns: 1fr;
             }
+
+            .customer-selection {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -408,19 +464,30 @@
         <div class="game-screen active" id="start-screen">
             <div class="start-screen">
                 <h2>Welcome to Sales Champion Training!</h2>
-                <p>Step into the arena and face your greatest challenges: customer objections! Master the art of home warranty sales through epic battles where your sales skills are your weapons.</p>
-                <p>Each enemy represents a different customer objection or challenge. Use proven sales techniques to overcome them and become the ultimate Sales Champion!</p>
+                <p>Face 25+ different customer objection scenarios! Master the art of home warranty sales through epic battles where your sales skills are your weapons.</p>
+                <p>Each customer represents real-world objections and challenges. Use proven sales techniques to overcome them and become the ultimate Sales Champion!</p>
                 <div class="tips">
                     <h4>🎯 Training Objectives:</h4>
-                    <p>• Learn to overcome common objections with confidence<br>
-                    • Practice value-based selling techniques<br>
-                    • Master the art of closing deals<br>
-                    • Build your sales expertise through repetition<br>
-                    • Understand customer psychology and motivation</p>
+                    <p>• Master 25+ unique customer objection scenarios<br>
+                    • Practice advanced sales psychology techniques<br>
+                    • Learn to read customer personalities and motivations<br>
+                    • Build expertise through comprehensive objection handling<br>
+                    • Develop situational awareness for different customer types</p>
                 </div>
-                <button class="btn" onclick="startGame()">Begin Training</button>
+                <button class="btn" onclick="showCustomerSelection()">Choose Your Challenge</button>
+                <button class="btn" onclick="startRandomGame()">Random Battle</button>
                 <button class="btn secondary" onclick="showTutorial()">View Tutorial</button>
             </div>
+        </div>
+
+        <!-- Customer Selection Screen -->
+        <div class="game-screen" id="customer-selection-screen">
+            <h2>Choose Your Customer Challenge</h2>
+            <p>Select the type of customer objection you want to practice with:</p>
+            <div class="customer-selection" id="customer-grid">
+                <!-- Customer cards will be populated by JavaScript -->
+            </div>
+            <button class="btn secondary" onclick="showStartScreen()">Back to Menu</button>
         </div>
 
         <!-- Tutorial Screen -->
@@ -428,19 +495,21 @@
             <h2>How to Play</h2>
             <div class="tips">
                 <h4>🎮 Game Mechanics:</h4>
-                <p><strong>Battle System:</strong> You'll face different "Objection Monsters" that represent real customer concerns and objections.</p>
-                <p><strong>Sales Techniques:</strong> Choose from various sales responses and techniques to counter objections.</p>
-                <p><strong>Effectiveness System:</strong> Some techniques work better against specific objections - watch for the effectiveness indicators!</p>
-                <p><strong>Coaching Panel:</strong> Real-time advice appears to help you understand customer psychology and improve your approach.</p>
+                <p><strong>25+ Customer Types:</strong> Face diverse objections from skeptical homeowners to budget-conscious families.</p>
+                <p><strong>Advanced Psychology:</strong> Each customer has unique motivations, fears, and decision-making patterns.</p>
+                <p><strong>Smart Coaching:</strong> Get real-time advice on why techniques work or fail with specific personality types.</p>
+                <p><strong>Effectiveness System:</strong> Master which approaches work best for each customer scenario.</p>
             </div>
             <div class="tips">
-                <h4>🧠 Learning Features:</h4>
-                <p><strong>Psychology Insights:</strong> Learn why customers think the way they do</p>
-                <p><strong>Technique Effectiveness:</strong> Understand which approaches work best for each situation</p>
-                <p><strong>Real-time Coaching:</strong> Get instant feedback on your choices</p>
-                <p><strong>Improvement Tips:</strong> Specific advice on how to handle each objection type</p>
+                <h4>🧠 Customer Categories:</h4>
+                <p><strong>Trust Issues:</strong> Skeptical customers who need credibility building</p>
+                <p><strong>Budget Concerns:</strong> Price-sensitive customers requiring value demonstration</p>
+                <p><strong>Decision Delays:</strong> Procrastinators and committee-based decision makers</p>
+                <p><strong>Knowledge Gaps:</strong> Confused customers needing education</p>
+                <p><strong>Bad Experiences:</strong> Customers burned by previous service providers</p>
+                <p><strong>Comparison Shoppers:</strong> Customers evaluating multiple options</p>
             </div>
-            <button class="btn" onclick="startGame()">Start Playing</button>
+            <button class="btn" onclick="showCustomerSelection()">Start Training</button>
             <button class="btn secondary" onclick="showStartScreen()">Back</button>
         </div>
 
@@ -517,7 +586,8 @@
                     <div class="stat">XP Gained: <span id="xp-gained">50</span></div>
                     <div class="stat">New Level: <span id="new-level">1</span></div>
                 </div>
-                <button class="btn" onclick="nextBattle()">Face Next Challenge</button>
+                <button class="btn" onclick="showCustomerSelection()">Choose Next Challenge</button>
+                <button class="btn" onclick="nextBattle()">Random Next Battle</button>
                 <button class="btn secondary" onclick="showStartScreen()">Return to Menu</button>
             </div>
         </div>
@@ -532,6 +602,7 @@
                     <p id="defeat-feedback">Consider trying different approaches or addressing the core concern more directly.</p>
                 </div>
                 <button class="btn" onclick="retryBattle()">Try Again</button>
+                <button class="btn secondary" onclick="showCustomerSelection()">Choose Different Customer</button>
                 <button class="btn secondary" onclick="showStartScreen()">Return to Menu</button>
             </div>
         </div>
@@ -551,8 +622,10 @@
                 this.currentEnemy = null;
                 this.battleLog = [];
                 this.currentBattleIndex = 0;
+                this.selectedCustomerIndex = -1;
                 
                 this.enemies = [
+                    // Trust & Skepticism Category
                     {
                         name: "The Skeptical Homeowner",
                         avatar: "🤔",
@@ -560,23 +633,40 @@
                         difficulty: "★",
                         health: 80,
                         maxHealth: 80,
+                        category: "trust",
                         objection: "I don't trust home warranty companies. How do I know you're not just trying to take my money?",
                         weaknesses: ["social_proof", "transparency"],
                         psychology: "This customer has been burned before or heard negative stories. They need evidence and transparency to build trust.",
                         coaching: "Focus on building credibility through testimonials, company backing, and transparent processes. Avoid pushing too hard - let the facts speak."
                     },
                     {
-                        name: "The DIY Expert",
-                        avatar: "🔧",
-                        type: "Self-Reliance",
+                        name: "The Burned Customer",
+                        avatar: "😠",
+                        type: "Bad Experience",
+                        difficulty: "★★★",
+                        health: 130,
+                        maxHealth: 130,
+                        category: "trust",
+                        objection: "I had a home warranty before and they denied every claim I made. You're all just scam artists.",
+                        weaknesses: ["transparency", "differentiation"],
+                        psychology: "Extremely defensive due to previous bad experience. They're angry and see all warranty companies as the same.",
+                        coaching: "Acknowledge their frustration, differentiate SCANA from competitors, and focus on specific policy differences. Don't minimize their experience."
+                    },
+                    {
+                        name: "The Research Fanatic",
+                        avatar: "📚",
+                        type: "Over-Analyzer",
                         difficulty: "★★",
                         health: 100,
                         maxHealth: 100,
-                        objection: "I'm pretty handy. I can fix most things myself. Why would I need a warranty?",
-                        weaknesses: ["time_value", "complexity"],
-                        psychology: "This customer takes pride in their skills. Don't challenge their abilities - acknowledge them while highlighting complexity and time value.",
-                        coaching: "Respect their expertise but focus on scenarios beyond basic repairs: complex diagnostics, specialized tools, time constraints, and warranty parts."
+                        category: "trust",
+                        objection: "I've read online reviews and complaints about home warranties. The BBB ratings aren't great.",
+                        weaknesses: ["transparency", "social_proof"],
+                        psychology: "They've done extensive research and found negative information. They need balanced perspective and credible sources.",
+                        coaching: "Acknowledge their research, provide balanced view of the industry, share specific SCANA metrics and improvements."
                     },
+
+                    // Budget & Financial Category
                     {
                         name: "The Budget-Conscious Customer",
                         avatar: "💰",
@@ -584,11 +674,81 @@
                         difficulty: "★★",
                         health: 90,
                         maxHealth: 90,
+                        category: "budget",
                         objection: "This seems expensive. I'm not sure I can afford another monthly payment.",
                         weaknesses: ["cost_benefit", "payment_options"],
                         psychology: "Money is tight and they're counting every dollar. They need to see clear financial benefit and flexible options.",
                         coaching: "Break down the cost comparison with actual repair costs. Show how one major repair costs more than years of protection. Mention payment flexibility."
                     },
+                    {
+                        name: "The Penny Pincher",
+                        avatar: "🪙",
+                        type: "Extreme Budget",
+                        difficulty: "★★★",
+                        health: 120,
+                        maxHealth: 120,
+                        category: "budget",
+                        objection: "I'd rather put that money in a savings account for repairs. At least then I keep the money if nothing breaks.",
+                        weaknesses: ["risk_mitigation", "cost_benefit"],
+                        psychology: "They see warranties as wasted money and prefer self-insurance. They need education about repair cost unpredictability.",
+                        coaching: "Focus on unpredictability of major repairs, the large amounts needed for self-insurance, and peace of mind value."
+                    },
+                    {
+                        name: "The Fixed-Income Senior",
+                        avatar: "👴",
+                        type: "Senior Budget",
+                        difficulty: "★★",
+                        health: 85,
+                        maxHealth: 85,
+                        category: "budget",
+                        objection: "I'm on a fixed income. Every dollar counts and I can't afford any extras right now.",
+                        weaknesses: ["senior_benefits", "peace_of_mind"],
+                        psychology: "Limited income creates anxiety about any new expenses. They need to see this as essential, not extra.",
+                        coaching: "Position as protection for their fixed income, emphasize senior discounts if available, focus on budget predictability."
+                    },
+
+                    // DIY & Self-Reliance Category
+                    {
+                        name: "The DIY Expert",
+                        avatar: "🔧",
+                        type: "Self-Reliance",
+                        difficulty: "★★",
+                        health: 100,
+                        maxHealth: 100,
+                        category: "diy",
+                        objection: "I'm pretty handy. I can fix most things myself. Why would I need a warranty?",
+                        weaknesses: ["time_value", "complexity"],
+                        psychology: "This customer takes pride in their skills. Don't challenge their abilities - acknowledge them while highlighting complexity and time value.",
+                        coaching: "Respect their expertise but focus on scenarios beyond basic repairs: complex diagnostics, specialized tools, time constraints, and warranty parts."
+                    },
+                    {
+                        name: "The YouTube University Graduate",
+                        avatar: "📱",
+                        type: "Online DIY",
+                        difficulty: "★",
+                        health: 75,
+                        maxHealth: 75,
+                        category: "diy",
+                        objection: "I can watch YouTube videos and figure out how to fix anything. I don't need to pay someone else.",
+                        weaknesses: ["complexity", "safety"],
+                        psychology: "Overconfident in online learning. They underestimate complexity and safety issues of major home repairs.",
+                        coaching: "Acknowledge YouTube as great for simple fixes, but emphasize safety, warranties, and complex diagnostics that require professional training."
+                    },
+                    {
+                        name: "The Retired Contractor",
+                        avatar: "👷",
+                        type: "Professional DIY",
+                        difficulty: "★★★",
+                        health: 140,
+                        maxHealth: 140,
+                        category: "diy",
+                        objection: "I spent 30 years in construction. I know how to fix everything in this house better than any service tech.",
+                        weaknesses: ["time_value", "parts_access"],
+                        psychology: "Highly skilled and proud of professional background. They need respect for their expertise while showing limitations.",
+                        coaching: "Honor their professional background. Focus on time value in retirement, parts access, and warranty coverage for their work."
+                    },
+
+                    // Timing & Decision Delay Category
                     {
                         name: "The New Home Owner",
                         avatar: "🏠",
@@ -596,22 +756,11 @@
                         difficulty: "★",
                         health: 70,
                         maxHealth: 70,
+                        category: "timing",
                         objection: "My home is brand new. Nothing is going to break anytime soon.",
                         weaknesses: ["prevention", "manufacturer_limits"],
                         psychology: "They're in the 'honeymoon phase' with their new home. They need education about when things actually break and warranty gaps.",
                         coaching: "Educate about manufacturer warranty limitations, installation issues, and the reality that even new homes have problems. Position as smart prevention."
-                    },
-                    {
-                        name: "The Insurance Confused",
-                        avatar: "📋",
-                        type: "Coverage Confusion",
-                        difficulty: "★★",
-                        health: 85,
-                        maxHealth: 85,
-                        objection: "I already have homeowner's insurance. Isn't that enough?",
-                        weaknesses: ["coverage_difference", "education"],
-                        psychology: "They genuinely don't understand the difference. This is an education opportunity, not a hard sell situation.",
-                        coaching: "Clearly explain what homeowner's insurance covers vs. home warranty. Use analogies like car insurance vs. extended warranty. Don't compete - complement."
                     },
                     {
                         name: "The Procrastinator",
@@ -620,10 +769,216 @@
                         difficulty: "★★★",
                         health: 120,
                         maxHealth: 120,
+                        category: "timing",
                         objection: "I need to think about it and discuss with my spouse first.",
                         weaknesses: ["urgency", "decision_framework"],
                         psychology: "They may be interested but avoid decisions or need spousal buy-in. They need help making the decision process easier.",
                         coaching: "Create urgency without pressure. Offer to speak with both spouses. Provide a clear decision framework. Address what specific concerns they need to think about."
+                    },
+                    {
+                        name: "The Committee Decision Maker",
+                        avatar: "👥",
+                        type: "Multiple Stakeholders",
+                        difficulty: "★★★",
+                        health: 125,
+                        maxHealth: 125,
+                        category: "timing",
+                        objection: "I need to run this by my adult children who help with financial decisions.",
+                        weaknesses: ["stakeholder_benefits", "urgency"],
+                        psychology: "Decisions involve multiple people with different priorities. They need materials to share and compelling reasons for all stakeholders.",
+                        coaching: "Provide information packets for sharing. Address benefits for different stakeholders. Create timeline pressure that affects everyone."
+                    },
+
+                    // Knowledge & Confusion Category
+                    {
+                        name: "The Insurance Confused",
+                        avatar: "📋",
+                        type: "Coverage Confusion",
+                        difficulty: "★★",
+                        health: 85,
+                        maxHealth: 85,
+                        category: "knowledge",
+                        objection: "I already have homeowner's insurance. Isn't that enough?",
+                        weaknesses: ["coverage_difference", "education"],
+                        psychology: "They genuinely don't understand the difference. This is an education opportunity, not a hard sell situation.",
+                        coaching: "Clearly explain what homeowner's insurance covers vs. home warranty. Use analogies like car insurance vs. extended warranty. Don't compete - complement."
+                    },
+                    {
+                        name: "The Technical Questioner",
+                        avatar: "🔬",
+                        type: "Detail Seeker",
+                        difficulty: "★★",
+                        health: 95,
+                        maxHealth: 95,
+                        category: "knowledge",
+                        objection: "I need to understand exactly what's covered. Can you explain the difference between normal wear and tear vs. pre-existing conditions?",
+                        weaknesses: ["technical_expertise", "transparency"],
+                        psychology: "Analytical personality who needs comprehensive understanding before deciding. They want technical accuracy.",
+                        coaching: "Provide detailed explanations with examples. Use technical language appropriately. Have documentation ready to support claims."
+                    },
+                    {
+                        name: "The Warranty Illiterate",
+                        avatar: "❓",
+                        type: "Complete Novice",
+                        difficulty: "★",
+                        health: 70,
+                        maxHealth: 70,
+                        category: "knowledge",
+                        objection: "I don't really understand what a home warranty is or how it works. This is all new to me.",
+                        weaknesses: ["education", "simple_explanation"],
+                        psychology: "Genuinely doesn't understand the concept. Needs basic education without overwhelming detail.",
+                        coaching: "Start with simple analogies. Build understanding step by step. Avoid jargon. Check for comprehension before moving forward."
+                    },
+
+                    // Comparison Shopping Category
+                    {
+                        name: "The Comparison Shopper",
+                        avatar: "🛒",
+                        type: "Multiple Quotes",
+                        difficulty: "★★",
+                        health: 90,
+                        maxHealth: 90,
+                        category: "comparison",
+                        objection: "I'm getting quotes from three other companies. Your price is higher than what others have offered.",
+                        weaknesses: ["value_differentiation", "unique_benefits"],
+                        psychology: "Focused on price comparison but may not understand service differences. They need education about value beyond price.",
+                        coaching: "Acknowledge their smart shopping approach. Focus on value differences, service quality, and total cost of ownership beyond just premium price."
+                    },
+                    {
+                        name: "The Lowest Bidder",
+                        avatar: "📉",
+                        type: "Price Hunter",
+                        difficulty: "★★★",
+                        health: 115,
+                        maxHealth: 115,
+                        category: "comparison",
+                        objection: "Company X offers the same thing for $50 less per year. Why should I pay more?",
+                        weaknesses: ["service_quality", "hidden_costs"],
+                        psychology: "Solely focused on lowest price. They need education about hidden costs and service quality differences.",
+                        coaching: "Explain the true cost of cheap warranties: higher deductibles, limited service, claim denials. Focus on total value and peace of mind."
+                    },
+                    {
+                        name: "The Brand Loyalist",
+                        avatar: "🏢",
+                        type: "Competitor Preference",
+                        difficulty: "★★★",
+                        health: 125,
+                        maxHealth: 125,
+                        category: "comparison",
+                        objection: "I've heard of [Major Competitor]. They're bigger and more established. Why should I go with a smaller company?",
+                        weaknesses: ["local_advantage", "personalized_service"],
+                        psychology: "Equates bigger with better. They need to understand benefits of local, personalized service.",
+                        coaching: "Acknowledge competitor strengths but emphasize local advantages: faster service, personal relationships, community investment."
+                    },
+
+                    // Specific Situation Category
+                    {
+                        name: "The Rental Property Owner",
+                        avatar: "🏘️",
+                        type: "Investment Property",
+                        difficulty: "★★",
+                        health: 95,
+                        maxHealth: 95,
+                        category: "situation",
+                        objection: "This is a rental property. My tenants should take care of basic maintenance and repairs.",
+                        weaknesses: ["landlord_benefits", "tenant_relations"],
+                        psychology: "Sees home repairs as tenant responsibility. Needs to understand landlord liability and tenant satisfaction benefits.",
+                        coaching: "Focus on landlord legal responsibilities, tenant retention benefits, and protection against major unexpected costs."
+                    },
+                    {
+                        name: "The Vacation Home Owner",
+                        avatar: "🏖️",
+                        type: "Second Home",
+                        difficulty: "★",
+                        health: 80,
+                        maxHealth: 80,
+                        category: "situation",
+                        objection: "This is just our vacation home. We're only here a few months a year.",
+                        weaknesses: ["remote_protection", "prevention"],
+                        psychology: "Sees limited use as lower risk. Needs to understand that problems occur regardless of occupancy.",
+                        coaching: "Emphasize problems happen when you're away, difficulty of managing repairs remotely, and protection of investment."
+                    },
+                    {
+                        name: "The Home Seller",
+                        avatar: "📋",
+                        type: "Selling Soon",
+                        difficulty: "★★",
+                        health: 85,
+                        maxHealth: 85,
+                        category: "situation",
+                        objection: "We're planning to sell this house in the next year or two. Why invest in a warranty now?",
+                        weaknesses: ["selling_advantage", "transfer_value"],
+                        psychology: "Short-term thinking focused on immediate departure. Needs to see warranty as selling tool and protection during sale process.",
+                        coaching: "Position warranty as selling advantage, protection during showing period, and transferable benefit to buyers."
+                    },
+
+                    // Emotional Objections Category
+                    {
+                        name: "The Overwhelmed Customer",
+                        avatar: "😰",
+                        type: "Decision Fatigue",
+                        difficulty: "★★",
+                        health: 90,
+                        maxHealth: 90,
+                        category: "emotional",
+                        objection: "I just bought this house and I'm dealing with so many decisions. I can't handle one more thing right now.",
+                        weaknesses: ["simplicity", "peace_of_mind"],
+                        psychology: "Experiencing decision fatigue from home buying process. They need simplification and stress reduction.",
+                        coaching: "Acknowledge their stress, simplify the decision, position warranty as reducing future decisions and stress about repairs."
+                    },
+                    {
+                        name: "The Anxious Worrier",
+                        avatar: "😟",
+                        type: "High Anxiety",
+                        difficulty: "★",
+                        health: 75,
+                        maxHealth: 75,
+                        category: "emotional",
+                        objection: "What if you don't cover the specific thing that breaks? What if I pay all this money and still have huge repair bills?",
+                        weaknesses: ["reassurance", "guarantees"],
+                        psychology: "High anxiety about making wrong decisions. They catastrophize and need detailed reassurance.",
+                        coaching: "Provide detailed coverage explanations, emphasize guarantees, and address specific 'what if' scenarios they're worried about."
+                    },
+                    {
+                        name: "The Stubborn Traditionalist",
+                        avatar: "👨‍🦳",
+                        type: "Old School",
+                        difficulty: "★★★",
+                        health: 130,
+                        maxHealth: 130,
+                        category: "emotional",
+                        objection: "In my day, we saved money for repairs and dealt with problems when they came up. We didn't need all these fancy warranties.",
+                        weaknesses: ["modern_complexity", "respect_tradition"],
+                        psychology: "Values traditional approaches and is resistant to modern solutions. They need respect for their values while understanding modern complexity.",
+                        coaching: "Honor their traditional values while explaining how home complexity has increased. Position warranty as evolution of smart financial planning."
+                    },
+
+                    // Unique Scenarios
+                    {
+                        name: "The Military Family",
+                        avatar: "🎖️",
+                        type: "Military Specific",
+                        difficulty: "★",
+                        health: 70,
+                        maxHealth: 70,
+                        category: "unique",
+                        objection: "We might get orders to move in the next few years. Does this transfer or are we wasting money?",
+                        weaknesses: ["military_benefits", "transferability"],
+                        psychology: "Concerned about mobility and getting value from services. They need understanding of military-specific benefits.",
+                        coaching: "Explain transferability options, military discounts if available, and benefits of protection during transition periods."
+                    },
+                    {
+                        name: "The Tech-Savvy Millennial",
+                        avatar: "💻",
+                        type: "Digital Native",
+                        difficulty: "★",
+                        health: 80,
+                        maxHealth: 80,
+                        category: "unique",
+                        objection: "I can just call contractors directly using apps. Why do I need a middleman warranty company?",
+                        weaknesses: ["convenience", "quality_control"],
+                        psychology: "Comfortable with technology and direct service apps. They need to understand value of warranty beyond just connecting with contractors.",
+                        coaching: "Acknowledge their tech comfort. Focus on warranty benefits: pre-vetted contractors, dispute resolution, cost predictability, quality guarantees."
                     }
                 ];
                 
@@ -632,87 +987,279 @@
                         name: "Value Proposition",
                         description: "Highlight comprehensive protection and peace of mind",
                         damage: [25, 35],
-                        response: "SCANA Home Warranty provides comprehensive protection for your home's essential systems and appliances. When something breaks, we handle the diagnosis, repair, and replacement - saving you thousands in unexpected costs.",
+                        response: "SCANA Home Warranty provides comprehensive protection for your home's essential systems and appliances. When something breaks, we handle everything - diagnosis, repair, and replacement - saving you thousands in unexpected costs while giving you complete peace of mind.",
                         insights: {
                             "The Skeptical Homeowner": { effective: "moderate", advice: "Good start, but they need proof this value is real. Follow up with testimonials or guarantees." },
                             "The DIY Expert": { effective: "low", advice: "They already see value in their own skills. Focus on time savings and complex repairs instead." },
                             "The Budget-Conscious Customer": { effective: "high", advice: "Perfect! They need to see financial value. Break down specific cost savings with real numbers." },
                             "The New Home Owner": { effective: "moderate", advice: "They don't see immediate need. Connect value to future protection and prevention." },
                             "The Insurance Confused": { effective: "low", advice: "They're confused about coverage differences. Clarify what value means in home warranty context." },
-                            "The Procrastinator": { effective: "moderate", advice: "Good foundation, but they need help making the decision. Add urgency or decision framework." }
+                            "The Procrastinator": { effective: "moderate", advice: "Good foundation, but they need help making the decision. Add urgency or decision framework." },
+                            "The Burned Customer": { effective: "low", advice: "They've heard value promises before. Focus on specific differences and guarantees." },
+                            "The Research Fanatic": { effective: "moderate", advice: "Support value claims with specific data and third-party validation." },
+                            "The Penny Pincher": { effective: "moderate", advice: "Good approach. Break down cost per day and compare to self-insurance requirements." },
+                            "The Fixed-Income Senior": { effective: "high", advice: "Excellent! Frame as budget protection and predictable costs for fixed income." },
+                            "The YouTube University Graduate": { effective: "low", advice: "They think they can create value themselves. Focus on professional quality and safety." },
+                            "The Retired Contractor": { effective: "low", advice: "They know construction value. Focus on time value in retirement and parts access." },
+                            "The Committee Decision Maker": { effective: "moderate", advice: "Good foundation. Tailor value points to different stakeholder concerns." },
+                            "The Technical Questioner": { effective: "moderate", advice: "Support with technical specifications and detailed coverage explanations." },
+                            "The Warranty Illiterate": { effective: "high", advice: "Perfect starting point. Use simple examples to illustrate value concepts." },
+                            "The Comparison Shopper": { effective: "high", advice: "Excellent! Focus on unique value propositions that differentiate from competitors." },
+                            "The Lowest Bidder": { effective: "moderate", advice: "Good, but emphasize total value vs. lowest price. Include hidden costs of cheap options." },
+                            "The Brand Loyalist": { effective: "moderate", advice: "Acknowledge their point but highlight unique local value and personalized service." },
+                            "The Rental Property Owner": { effective: "high", advice: "Great! Focus on landlord-specific value: tenant satisfaction, legal protection, investment preservation." },
+                            "The Vacation Home Owner": { effective: "moderate", advice: "Frame value as investment protection and remote peace of mind." },
+                            "The Home Seller": { effective: "high", advice: "Perfect! Position warranty as adding value to sale and protecting during transition." },
+                            "The Overwhelmed Customer": { effective: "moderate", advice: "Simplify value message. Focus on reducing future stress and decisions." },
+                            "The Anxious Worrier": { effective: "high", advice: "Excellent! Frame value as security and worry reduction. Be specific about protection." },
+                            "The Stubborn Traditionalist": { effective: "low", advice: "They resist modern solutions. Frame as evolution of traditional savings wisdom." },
+                            "The Military Family": { effective: "moderate", advice: "Good foundation. Add military-specific value: transfers, deployment protection." },
+                            "The Tech-Savvy Millennial": { effective: "moderate", advice: "Frame value in tech terms: platform benefits, quality control, user experience." }
                         }
                     },
                     social_proof: {
                         name: "Social Proof",
                         description: "Share success stories and testimonials",
                         damage: [20, 30],
-                        response: "Thousands of homeowners across South Carolina trust SCANA Home Warranty. Last month alone, we saved our customers over $500,000 in repair costs. Mrs. Johnson from Columbia saved $2,800 when her HVAC system failed.",
+                        response: "Thousands of South Carolina homeowners trust SCANA Home Warranty. Last month alone, we saved our customers over $500,000 in repair costs. Mrs. Johnson from Columbia saved $2,800 when her HVAC system failed, and Mr. Davis in Charleston avoided a $1,500 water heater replacement cost.",
                         insights: {
                             "The Skeptical Homeowner": { effective: "high", advice: "Excellent choice! Skeptical customers need proof from others. Share specific, local examples." },
                             "The DIY Expert": { effective: "moderate", advice: "Good, but frame stories around complex repairs that challenged even skilled homeowners." },
                             "The Budget-Conscious Customer": { effective: "high", advice: "Perfect! Show real savings from real people. Use relatable financial situations." },
                             "The New Home Owner": { effective: "high", advice: "Great! New homeowners trust other homeowners' experiences. Share stories from similar situations." },
                             "The Insurance Confused": { effective: "moderate", advice: "Helpful, but include stories that clarify the insurance vs warranty difference." },
-                            "The Procrastinator": { effective: "low", advice: "Social proof helps, but they need urgency. Share stories about people who waited too long." }
+                            "The Procrastinator": { effective: "low", advice: "Social proof helps, but they need urgency. Share stories about people who waited too long." },
+                            "The Burned Customer": { effective: "high", advice: "Critical! They need evidence others have had good experiences. Use detailed, verified testimonials." },
+                            "The Research Fanatic": { effective: "high", advice: "Perfect! Provide verifiable testimonials with specific details they can research." },
+                            "The Penny Pincher": { effective: "high", advice: "Excellent! Focus on testimonials about money saved and financial protection." },
+                            "The Fixed-Income Senior": { effective: "high", advice: "Great! Use testimonials from other seniors about budget protection and peace of mind." },
+                            "The YouTube University Graduate": { effective: "moderate", advice: "Include stories of DIY attempts gone wrong and professional rescue stories." },
+                            "The Retired Contractor": { effective: "moderate", advice: "Use testimonials from other professionals who recognize the value despite their skills." },
+                            "The Committee Decision Maker": { effective: "moderate", advice: "Share stories that resonate with different family member concerns." },
+                            "The Technical Questioner": { effective: "moderate", advice: "Provide detailed testimonials with technical specifics and measurable outcomes." },
+                            "The Warranty Illiterate": { effective: "high", advice: "Perfect! Use simple, relatable stories that illustrate how warranties work." },
+                            "The Comparison Shopper": { effective: "high", advice: "Excellent! Include comparative testimonials about superior service vs competitors." },
+                            "The Lowest Bidder": { effective: "high", advice: "Critical! Share stories about problems with cheap warranties and value of quality service." },
+                            "The Brand Loyalist": { effective: "moderate", advice: "Include testimonials from customers who switched from big competitors and were happier." },
+                            "The Rental Property Owner": { effective: "moderate", advice: "Use landlord testimonials about tenant satisfaction and property protection." },
+                            "The Vacation Home Owner": { effective: "moderate", advice: "Share stories from other vacation home owners about remote peace of mind." },
+                            "The Home Seller": { effective: "moderate", advice: "Include testimonials about warranties helping home sales and buyer confidence." },
+                            "The Overwhelmed Customer": { effective: "moderate", advice: "Use stories about stress relief and simplified home management." },
+                            "The Anxious Worrier": { effective: "high", advice: "Perfect! Share detailed stories about how warranty coverage provided peace of mind." },
+                            "The Stubborn Traditionalist": { effective: "low", advice: "They may resist modern testimonials. Use stories from traditional, established customers." },
+                            "The Military Family": { effective: "high", advice: "Excellent! Use military family testimonials about deployments and PCS moves." },
+                            "The Tech-Savvy Millennial": { effective: "moderate", advice: "Include testimonials about superior service vs DIY app experiences." }
                         }
                     },
                     risk_mitigation: {
                         name: "Risk Mitigation",
                         description: "Address the financial risks of home repairs",
                         damage: [30, 40],
-                        response: "Home repairs can cost thousands without warning. A single HVAC repair averages $1,200, and a water heater replacement costs $1,500. Our protection starts at just a fraction of what one major repair would cost.",
+                        response: "Home repairs can cost thousands without warning. A single HVAC repair averages $1,200, water heater replacement costs $1,500, and electrical issues can run $2,000+. Our protection starts at just a fraction of what one major repair would cost, and covers multiple systems.",
                         insights: {
                             "The Skeptical Homeowner": { effective: "moderate", advice: "Good foundation, but they need to trust the numbers. Back up statistics with verifiable sources." },
                             "The DIY Expert": { effective: "low", advice: "They think they can avoid these costs. Focus on risks they can't DIY: complex diagnostics, specialized parts." },
                             "The Budget-Conscious Customer": { effective: "high", advice: "Excellent! This speaks directly to their financial fears. Be specific about local repair costs." },
                             "The New Home Owner": { effective: "high", advice: "Perfect! They don't realize these risks exist. Education about future costs is key." },
                             "The Insurance Confused": { effective: "moderate", advice: "Good, but clarify these are costs insurance WON'T cover. Show the coverage gap." },
-                            "The Procrastinator": { effective: "moderate", advice: "Creates some urgency, but add timeframe - 'these costs could hit any day.'" }
+                            "The Procrastinator": { effective: "moderate", advice: "Creates some urgency, but add timeframe - 'these costs could hit any day.'" },
+                            "The Burned Customer": { effective: "moderate", advice: "They know risks exist but fear warranty won't pay. Focus on SCANA's claim payment record." },
+                            "The Research Fanatic": { effective: "high", advice: "Excellent! Provide detailed cost data sources and industry statistics." },
+                            "The Penny Pincher": { effective: "high", advice: "Perfect! Show how self-insurance requires much larger emergency fund." },
+                            "The Fixed-Income Senior": { effective: "high", advice: "Critical! Fixed income makes unexpected major costs devastating." },
+                            "The YouTube University Graduate": { effective: "moderate", advice: "Include risks of DIY mistakes leading to bigger, more expensive problems." },
+                            "The Retired Contractor": { effective: "low", advice: "They know repair costs but believe they can avoid them. Focus on parts costs and complexity." },
+                            "The Committee Decision Maker": { effective: "high", advice: "Show how major repairs affect family finances and stress multiple stakeholders." },
+                            "The Technical Questioner": { effective: "high", advice: "Provide detailed breakdown of specific system repair costs and failure rates." },
+                            "The Warranty Illiterate": { effective: "high", advice: "Perfect! Use specific examples to make abstract risks concrete and relatable." },
+                            "The Comparison Shopper": { effective: "moderate", advice: "Good foundation. Compare total risk coverage value vs just premium costs." },
+                            "The Lowest Bidder": { effective: "high", advice: "Excellent! Show how cheap warranties leave you exposed to major financial risks." },
+                            "The Brand Loyalist": { effective: "moderate", advice: "Acknowledge their point but show risks apply regardless of company size." },
+                            "The Rental Property Owner": { effective: "high", advice: "Perfect! Focus on unexpected costs affecting rental income and property value." },
+                            "The Vacation Home Owner": { effective: "high", advice: "Excellent! Remote properties face higher costs and emergency repair difficulties." },
+                            "The Home Seller": { effective: "moderate", advice: "Show risks during sale process and how repairs can derail transactions." },
+                            "The Overwhelmed Customer": { effective: "high", advice: "Frame risks as potential stress and decision overload when systems fail." },
+                            "The Anxious Worrier": { effective: "high", advice: "Perfect! This validates their concerns and positions warranty as anxiety reducer." },
+                            "The Stubborn Traditionalist": { effective: "moderate", advice: "Frame risks as why traditional savings approach needs bigger emergency fund now." },
+                            "The Military Family": { effective: "high", advice: "Show deployment risks and difficulty managing repairs remotely during service." },
+                            "The Tech-Savvy Millennial": { effective: "moderate", advice: "Present risks with data and statistics in clear, analytical format." }
                         }
                     },
                     urgency: {
                         name: "Create Urgency",
                         description: "Emphasize time-sensitive benefits",
                         damage: [25, 35],
-                        response: "Protection begins 16 days after enrollment, so the sooner you sign up, the sooner you're covered. Home systems don't wait for convenient times to fail - they often break during the worst possible moments.",
+                        response: "Protection begins 16 days after enrollment, so the sooner you sign up, the sooner you're covered. Home systems don't wait for convenient times to fail - they often break during holidays, weekends, or when you can least afford it. Every day without coverage is a day at risk.",
                         insights: {
                             "The Skeptical Homeowner": { effective: "low", advice: "Urgency can seem pushy to skeptical customers. Build trust first, then add gentle time pressure." },
                             "The DIY Expert": { effective: "low", advice: "They're not worried about timing since they can 'fix it themselves.' Focus on complexity urgency instead." },
                             "The Budget-Conscious Customer": { effective: "moderate", advice: "Moderate impact. They're more concerned about cost than timing. Combine with payment options." },
                             "The New Home Owner": { effective: "moderate", advice: "Somewhat effective - they don't expect immediate problems. Focus on protection starting soon." },
                             "The Insurance Confused": { effective: "low", advice: "Urgency won't help confusion. They need education first, then urgency makes sense." },
-                            "The Procrastinator": { effective: "high", advice: "Perfect! This directly addresses their delay tendency. Create real time pressure." }
+                            "The Procrastinator": { effective: "high", advice: "Perfect! This directly addresses their delay tendency. Create real time pressure." },
+                            "The Burned Customer": { effective: "low", advice: "They're suspicious of pressure tactics. Focus on protection timeline rather than sales urgency." },
+                            "The Research Fanatic": { effective: "low", advice: "They resist pressure. Instead, create urgency around protection gaps during research time." },
+                            "The Penny Pincher": { effective: "low", advice: "They'll resist pressure spending. Focus on increasing costs over time instead." },
+                            "The Fixed-Income Senior": { effective: "low", advice: "Pressure can backfire. Frame urgency as protection timeline rather than sales pressure." },
+                            "The YouTube University Graduate": { effective: "low", advice: "They're confident in quick solutions. Focus on learning curve and complexity urgency." },
+                            "The Retired Contractor": { effective: "low", advice: "They're not worried about immediate needs. Focus on age and availability urgency." },
+                            "The Committee Decision Maker": { effective: "moderate", advice: "Moderate effectiveness. Create urgency around coordination difficulty and protection gaps." },
+                            "The Technical Questioner": { effective: "low", advice: "They want thorough evaluation. Frame urgency around analysis time vs protection time." },
+                            "The Warranty Illiterate": { effective: "low", advice: "They need education first. Create urgency around learning and protection timeline." },
+                            "The Comparison Shopper": { effective: "low", advice: "They're methodical. Focus on market timing or seasonal considerations instead." },
+                            "The Lowest Bidder": { effective: "low", advice: "Pressure tactics reinforce cheapest option bias. Focus on value timing instead." },
+                            "The Brand Loyalist": { effective: "low", advice: "They're likely committed to bigger company timeline. Focus on availability urgency." },
+                            "The Rental Property Owner": { effective: "moderate", advice: "Moderate impact. Focus on tenant issues and vacancy risks from delayed repairs." },
+                            "The Vacation Home Owner": { effective: "moderate", advice: "Effective for seasonal properties. Focus on season timing and remote management urgency." },
+                            "The Home Seller": { effective: "high", advice: "Excellent! Selling timeline creates natural urgency for protection and buyer appeal." },
+                            "The Overwhelmed Customer": { effective: "low", advice: "More pressure adds stress. Frame urgency as one less thing to worry about later." },
+                            "The Anxious Worrier": { effective: "moderate", advice: "Can work but might increase anxiety. Frame as urgency to reduce worry and gain peace of mind." },
+                            "The Stubborn Traditionalist": { effective: "low", advice: "They resist modern pressure tactics. Focus on traditional wisdom of preparation." },
+                            "The Military Family": { effective: "high", advice: "Excellent! Military families understand mission-critical timing and preparedness." },
+                            "The Tech-Savvy Millennial": { effective: "moderate", advice: "Moderate impact. Frame urgency in terms of opportunity cost and optimal timing." }
                         }
                     },
                     transparency: {
                         name: "Transparency & Trust",
                         description: "Build trust through clear communication",
                         damage: [20, 30],
-                        response: "We believe in complete transparency. Here's exactly what's covered, what's not, and how our process works. We're backed by The Manchester Group and regulated by South Carolina state authorities.",
+                        response: "We believe in complete transparency. Here's exactly what's covered, what's not, and how our process works. We're backed by The Manchester Group, regulated by South Carolina state authorities, and provide clear documentation of all terms and conditions.",
                         insights: {
                             "The Skeptical Homeowner": { effective: "high", advice: "Excellent! This directly addresses their core concern. Provide specific details and documentation." },
                             "The DIY Expert": { effective: "moderate", advice: "Good approach. They appreciate straightforward information. Include technical details about coverage." },
                             "The Budget-Conscious Customer": { effective: "moderate", advice: "Helpful for trust, but they need cost transparency too. Include pricing breakdowns." },
                             "The New Home Owner": { effective: "moderate", advice: "Good foundation. New buyers appreciate honesty. Include new home specific coverage details." },
                             "The Insurance Confused": { effective: "high", advice: "Perfect! Clear explanations help confused customers. Use simple comparisons and examples." },
-                            "The Procrastinator": { effective: "low", advice: "Transparency helps but doesn't solve delay. Add what happens if they wait too long." }
+                            "The Procrastinator": { effective: "low", advice: "Transparency helps but doesn't solve delay. Add what happens if they wait too long." },
+                            "The Burned Customer": { effective: "high", advice: "Critical! They need to see you're different. Provide specific policy differences and guarantees." },
+                            "The Research Fanatic": { effective: "high", advice: "Perfect! Provide detailed documentation and encourage their research verification." },
+                            "The Penny Pincher": { effective: "moderate", advice: "Good for trust. Include transparent pricing and no hidden fees messaging." },
+                            "The Fixed-Income Senior": { effective: "high", advice: "Excellent! Seniors value honesty and clear information. Avoid confusing terms." },
+                            "The YouTube University Graduate": { effective: "moderate", advice: "They appreciate transparency. Include technical specifications and detailed coverage." },
+                            "The Retired Contractor": { effective: "high", advice: "Perfect! Professionals respect transparency. Provide technical details and professional terms." },
+                            "The Committee Decision Maker": { effective: "high", advice: "Excellent! Provide materials stakeholders can review independently." },
+                            "The Technical Questioner": { effective: "high", advice: "Perfect match! Provide comprehensive technical documentation and detailed explanations." },
+                            "The Warranty Illiterate": { effective: "moderate", advice: "Good approach but keep explanations simple. Avoid overwhelming with too much detail." },
+                            "The Comparison Shopper": { effective: "high", advice: "Excellent! Provide comparison charts and clear differentiation factors." },
+                            "The Lowest Bidder": { effective: "high", advice: "Critical! Show transparent pricing vs hidden costs in cheap alternatives." },
+                            "The Brand Loyalist": { effective: "moderate", advice: "Good foundation. Be transparent about size differences but emphasize service advantages." },
+                            "The Rental Property Owner": { effective: "moderate", advice: "Provide transparent landlord-specific terms and tenant communication policies." },
+                            "The Vacation Home Owner": { effective: "moderate", advice: "Include transparent policies about remote properties and service coordination." },
+                            "The Home Seller": { effective: "moderate", advice: "Provide transparent transfer policies and buyer communication procedures." },
+                            "The Overwhelmed Customer": { effective: "high", advice: "Perfect! Clear, simple information reduces confusion and stress." },
+                            "The Anxious Worrier": { effective: "high", advice: "Excellent! Transparency reduces anxiety about unknown terms and hidden problems." },
+                            "The Stubborn Traditionalist": { effective: "high", advice: "Perfect! Traditional customers value honesty and straightforward business practices." },
+                            "The Military Family": { effective: "high", advice: "Excellent! Military families appreciate clear, honest communication and detailed policies." },
+                            "The Tech-Savvy Millennial": { effective: "moderate", advice: "Good approach. Include digital access to documents and online transparency tools." }
                         }
                     },
                     cost_benefit: {
                         name: "Cost-Benefit Analysis",
                         description: "Break down the financial benefits clearly",
                         damage: [35, 45],
-                        response: "Let's do the math: our annual protection costs less than one major appliance repair. With coverage up to $4,000 per incident for major systems, you could save 5-10 times your investment on just one claim.",
+                        response: "Let's do the math: our annual protection costs less than one major appliance repair. With coverage up to $4,000 per incident for major systems, you could save 5-10 times your investment on just one claim. Compare this to setting aside $10,000+ for self-insurance.",
                         insights: {
                             "The Skeptical Homeowner": { effective: "moderate", advice: "Good logical approach, but they need to trust the numbers. Provide third-party validation." },
                             "The DIY Expert": { effective: "moderate", advice: "Numbers help, but focus on costs they can't DIY: diagnostics, specialized tools, warranty parts." },
                             "The Budget-Conscious Customer": { effective: "high", advice: "Excellent! This is exactly what they need. Make the math crystal clear and relatable." },
                             "The New Home Owner": { effective: "high", advice: "Great! They need education about real costs. Use examples relevant to new home systems." },
                             "The Insurance Confused": { effective: "moderate", advice: "Helpful, but include what insurance WON'T pay for. Show the financial gap." },
-                            "The Procrastinator": { effective: "moderate", advice: "Good foundation, but add urgency - 'every month you wait, you're at risk for these costs.'" }
+                            "The Procrastinator": { effective: "moderate", advice: "Good foundation, but add urgency - 'every month you wait, you're at risk for these costs.'" },
+                            "The Burned Customer": { effective: "moderate", advice: "They've heard promises before. Include SCANA's actual claim payment statistics." },
+                            "The Research Fanatic": { effective: "high", advice: "Perfect! Provide detailed financial analysis and third-party cost validation." },
+                            "The Penny Pincher": { effective: "high", advice: "Excellent! Show detailed ROI calculations and break down cost per day." },
+                            "The Fixed-Income Senior": { effective: "high", advice: "Perfect! Show budget protection and predictable costs vs devastating surprise expenses." },
+                            "The YouTube University Graduate": { effective: "moderate", advice: "Include costs of mistakes, time value, and professional tool/equipment costs." },
+                            "The Retired Contractor": { effective: "moderate", advice: "Focus on time value in retirement and current parts/labor costs vs their experience." },
+                            "The Committee Decision Maker": { effective: "high", advice: "Excellent! Provide detailed financial analysis stakeholders can review independently." },
+                            "The Technical Questioner": { effective: "high", advice: "Perfect! Provide comprehensive financial modeling and detailed cost breakdowns." },
+                            "The Warranty Illiterate": { effective: "moderate", advice: "Good but keep simple. Use basic examples and avoid complex financial terms." },
+                            "The Comparison Shopper": { effective: "high", advice: "Excellent! Include total cost comparisons and value analysis vs competitors." },
+                            "The Lowest Bidder": { effective: "high", advice: "Critical! Show total cost of ownership including deductibles, exclusions, and service quality." },
+                            "The Brand Loyalist": { effective: "moderate", advice: "Acknowledge their point but show cost advantages of local service and personalized attention." },
+                            "The Rental Property Owner": { effective: "high", advice: "Perfect! Show ROI impact on rental income and property value protection." },
+                            "The Vacation Home Owner": { effective: "moderate", advice: "Include costs of emergency travel and remote repair coordination." },
+                            "The Home Seller": { effective: "moderate", advice: "Show cost-benefit of warranty as selling tool vs potential repair negotiations." },
+                            "The Overwhelmed Customer": { effective: "moderate", advice: "Keep analysis simple. Focus on stress cost reduction and simplified financial planning." },
+                            "The Anxious Worrier": { effective: "high", advice: "Excellent! Show cost of worry vs peace of mind, plus financial protection benefits." },
+                            "The Stubborn Traditionalist": { effective: "high", advice: "Perfect! Frame as modern evolution of traditional savings wisdom with better returns." },
+                            "The Military Family": { effective: "high", advice: "Excellent! Include deployment considerations and family financial protection." },
+                            "The Tech-Savvy Millennial": { effective: "high", advice: "Perfect! Present detailed analytics, ROI calculations, and comparative cost modeling." }
+                        }
+                    },
+                    // Adding new techniques for specific scenarios
+                    differentiation: {
+                        name: "Service Differentiation",
+                        description: "Highlight unique SCANA advantages",
+                        damage: [25, 35],
+                        response: "SCANA Home Warranty is different from other companies. We're locally based in South Carolina, providing faster response times and personal service. Our contractors are pre-screened locals, not national call centers, and we have a 90-day workmanship guarantee.",
+                        insights: {
+                            "The Burned Customer": { effective: "high", advice: "Perfect! Show specific differences from their bad experience." },
+                            "The Brand Loyalist": { effective: "high", advice: "Excellent! Highlight local advantages over big national competitors." },
+                            "The Comparison Shopper": { effective: "high", advice: "Critical! Clear differentiation helps justify price differences." }
+                        }
+                    },
+                    technical_expertise: {
+                        name: "Technical Expertise",
+                        description: "Demonstrate deep product knowledge",
+                        damage: [30, 40],
+                        response: "Let me explain the technical details. Normal wear and tear covers mechanical failures from regular use, like compressor failure in HVAC systems. Pre-existing conditions are problems that existed before coverage began. We use diagnostic protocols to determine failure causes scientifically.",
+                        insights: {
+                            "The Technical Questioner": { effective: "high", advice: "Perfect match! Provide comprehensive technical explanations." },
+                            "The Retired Contractor": { effective: "high", advice: "Excellent! Speak their professional language." }
+                        }
+                    },
+                    simple_explanation: {
+                        name: "Simple Education",
+                        description: "Explain concepts in easy terms",
+                        damage: [20, 30],
+                        response: "Think of a home warranty like car insurance, but for your home's systems. When your air conditioner breaks, instead of paying thousands, you just pay a small service fee and we handle everything else - diagnosis, repair, and replacement if needed.",
+                        insights: {
+                            "The Warranty Illiterate": { effective: "high", advice: "Perfect! Use analogies and simple terms." },
+                            "The Overwhelmed Customer": { effective: "high", advice: "Excellent! Reduces complexity and stress." }
                         }
                     }
                 };
+            }
+            
+            populateCustomerGrid() {
+                const grid = document.getElementById('customer-grid');
+                grid.innerHTML = '';
+                
+                this.enemies.forEach((enemy, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'customer-card';
+                    card.onclick = () => this.selectCustomer(index);
+                    
+                    card.innerHTML = `
+                        <div class="customer-header">
+                            <div class="customer-avatar-small">${enemy.avatar}</div>
+                            <div class="customer-info">
+                                <h4>${enemy.name}</h4>
+                                <p>${enemy.type} • ${enemy.difficulty}</p>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 10px;">"${enemy.objection.length > 80 ? enemy.objection.substring(0, 80) + '...' : enemy.objection}"</p>
+                    `;
+                    
+                    grid.appendChild(card);
+                });
+            }
+            
+            selectCustomer(index) {
+                this.selectedCustomerIndex = index;
+                this.currentBattleIndex = index;
+                this.resetPlayer();
+                this.showScreen('battle-screen');
+                this.startSelectedBattle();
+            }
+            
+            startSelectedBattle() {
+                this.currentEnemy = { ...this.enemies[this.selectedCustomerIndex] };
+                this.updateBattleDisplay();
+                this.updateCoachingPanel();
+                this.addToBattleLog(`${this.currentEnemy.name} appears! They say: "${this.currentEnemy.objection}"`);
+                this.createActionButtons();
             }
             
             startNewBattle() {
@@ -741,7 +1288,7 @@
                         <h5>💡 Coaching Tip:</h5>
                         <p>${this.currentEnemy.coaching}</p>
                     </div>
-                    <p><strong>Most Effective Against:</strong> ${this.currentEnemy.weaknesses.map(w => this.salesTechniques[w].name).join(', ')}</p>
+                    <p><strong>Most Effective Against:</strong> ${this.currentEnemy.weaknesses.map(w => this.salesTechniques[w]?.name || w).join(', ')}</p>
                 `;
             }
             
@@ -779,6 +1326,9 @@
                 Object.keys(this.salesTechniques).forEach(key => {
                     const technique = this.salesTechniques[key];
                     const insight = technique.insights[this.currentEnemy.name];
+                    
+                    if (!insight) return; // Skip techniques without insights for this enemy
+                    
                     const isEffective = this.currentEnemy.weaknesses.includes(key);
                     
                     let effectivenessClass = 'not-effective';
@@ -829,11 +1379,8 @@
                 
                 this.currentEnemy.health = Math.max(0, this.currentEnemy.health - finalDamage);
                 
-                // Add battle log entries
                 this.addToBattleLog(`You used ${technique.name}!`, 'normal');
                 this.addToBattleLog(`"${technique.response}"`, 'normal');
-                
-                // Add coaching feedback
                 this.addToBattleLog(`💡 Coach: ${insight.advice}`, 'coach-tip');
                 
                 if (isEffective) {
@@ -842,9 +1389,7 @@
                     this.addToBattleLog(`Customer resistance decreased by ${finalDamage} points.`, 'normal');
                 }
                 
-                // Update coaching panel with technique-specific advice
                 this.updateCoachingWithTechnique(techniqueKey, insight);
-                
                 this.updateHealthBars();
                 
                 if (this.currentEnemy.health <= 0) {
@@ -864,7 +1409,7 @@
                     </div>
                     <div class="psychology-insight">
                         <h5>🎯 Next Steps:</h5>
-                        <p>Consider following up with techniques that address their core concerns: ${this.currentEnemy.weaknesses.map(w => this.salesTechniques[w].name).join(', ')}</p>
+                        <p>Consider following up with techniques that address their core concerns: ${this.currentEnemy.weaknesses.map(w => this.salesTechniques[w]?.name || w).join(', ')}</p>
                     </div>
                 `;
             }
@@ -896,7 +1441,12 @@
                     "Building trust is more important than winning the argument. Focus on understanding, not convincing.",
                     "Every objection is actually a request for more information. What information do they really need?",
                     "Emotional decisions are justified with logic. Address both the feeling and the reasoning.",
-                    "When customers delay, they're usually afraid of making the wrong choice. Help reduce their decision anxiety."
+                    "When customers delay, they're usually afraid of making the wrong choice. Help reduce their decision anxiety.",
+                    "Price objections are often about perceived value, not actual affordability. Focus on value demonstration.",
+                    "Skeptical customers need proof, not promises. Show, don't just tell.",
+                    "Confused customers need education, not sales pressure. Become their teacher first.",
+                    "Anxious customers need reassurance and detailed explanations to reduce uncertainty.",
+                    "Traditional customers value respect for their experience and wisdom."
                 ];
                 return tips[Math.floor(Math.random() * tips.length)];
             }
@@ -919,7 +1469,9 @@
                     "You successfully built trust and addressed their concerns with expert-level sales techniques!",
                     "Your understanding of customer psychology helped you choose the perfect approach!",
                     "You demonstrated excellent objection handling skills and product knowledge!",
-                    "Your professional approach and value demonstration won them over completely!"
+                    "Your professional approach and value demonstration won them over completely!",
+                    "You showed mastery of situational sales tactics and customer relationship building!",
+                    "Your empathy and expertise created the perfect combination for overcoming their objection!"
                 ];
                 
                 document.getElementById('victory-feedback').textContent = feedbacks[Math.floor(Math.random() * feedbacks.length)];
@@ -932,7 +1484,9 @@
                     "Consider focusing more on their emotional concerns before presenting logical arguments.",
                     "Try building more trust and credibility before addressing their specific objections.",
                     "Sometimes the stated objection isn't the real concern. Dig deeper with questions.",
-                    "Remember: people buy from people they trust. Focus on relationship building first."
+                    "Remember: people buy from people they trust. Focus on relationship building first.",
+                    "This customer type needs a different approach. Review their psychology profile for insights.",
+                    "Consider which techniques are most effective for their specific personality type."
                 ];
                 
                 document.getElementById('defeat-feedback').textContent = feedbacks[Math.floor(Math.random() * feedbacks.length)];
@@ -964,10 +1518,16 @@
         
         const game = new SalesTrainingGame();
         
-        function startGame() {
+        function startRandomGame() {
             game.resetPlayer();
+            game.currentBattleIndex = Math.floor(Math.random() * game.enemies.length);
             game.showScreen('battle-screen');
             game.startNewBattle();
+        }
+        
+        function showCustomerSelection() {
+            game.populateCustomerGrid();
+            game.showScreen('customer-selection-screen');
         }
         
         function showTutorial() {
@@ -980,17 +1540,26 @@
         
         function nextBattle() {
             game.resetPlayer();
+            game.currentBattleIndex = Math.floor(Math.random() * game.enemies.length);
             game.startNewBattle();
             game.showScreen('battle-screen');
         }
         
         function retryBattle() {
             game.resetPlayer();
-            game.currentBattleIndex--;
-            game.startNewBattle();
+            if (game.selectedCustomerIndex >= 0) {
+                game.startSelectedBattle();
+            } else {
+                game.currentBattleIndex--;
+                game.startNewBattle();
+            }
             game.showScreen('battle-screen');
         }
+        
+        // Initialize customer grid on page load
+        window.addEventListener('load', () => {
+            game.populateCustomerGrid();
+        });
     </script>
-
-
-</body></html>
+</body>
+</html>
